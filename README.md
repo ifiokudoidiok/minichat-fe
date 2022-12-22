@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+
+This is a WIP frontend for [Mini Chat API](https://github.com/ifiokudoidiok/minichat-api)
+To test the backend, clone the test FE instead [Test FE Minichat](https://github.com/ifiokudoidiok/test-fe-minichat)
+
 ## Getting Started
 
 First, run the development server:
