@@ -20,6 +20,7 @@ const clientSideEmotionCache = createEmotionCache();
 
 const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const router = useRouter();
 
   const [loading, setLoading] = React.useState(true);
   const currentUser: IUser | null = appStore((state) => state.user);
