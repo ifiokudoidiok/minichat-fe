@@ -21,10 +21,47 @@ const clientSideEmotionCache = createEmotionCache();
 const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
+  const [loading, setLoading] = React.useState(true);
+  const currentUser: IUser | null = appStore((state) => state.user);
+  const userToken: string | null = appStore((state) => state.token);
+  React.useEffect(() => {
+    const unsubscribe = () => {
+      if (currentUser) {
+        initSocket();
+        axiosInstance.defaults.headers.common.Authorization = `Bearer ${userToken}`;
+        router.push(ROUTES.HOME);
+        setLoading(false);
+        if (!currentUser) {
+          appStore.setState({
+            user: {
+              username: user.username,
+            },
+          });
+        }
+      } else {
+        appStore.setState({
+          user: null,
+        });
+        router.push(ROUTES.LOGIN);
+      }
+      setLoading(false);
+    };
+
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="loader">
+        <CircularProgress /> Please wait...
+      </div>
+    );
+  }
   return (
     <CacheProvider value={emotionCache}>
       <ThemeProvider theme={defaultTheme}>
         <CssBaseline />
+        <AppHeader />
         <Component {...pageProps} />
       </ThemeProvider>
     </CacheProvider>
